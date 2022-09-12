@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name = "viewport" content="width = device-width, initial-scale =1.0">
+    <title>Login</title>
+</head>
+<body>
+<form action="/login" method="POST">
+    Username <input type ="text" name ="username">
+    Remember Me <input type ="checkbox" name = "remember_me">
+    <button>submit</button>
+</form>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class="messages">
+    {%for message in messages%}
+    <li>{{message}}</li>
+    {% endif %}
+    {% endwith %}
+</ul>
+<p>
+    New user?
+    <a herf ="{{url_for('auth.register')}}">
+        Click here to register
+    </a>
+</p>
+</body>
+</html>
