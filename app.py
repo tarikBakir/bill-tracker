@@ -3,8 +3,10 @@ from urllib.parse import urlparse, urljoin
 import jinja2.exceptions
 from flask import Flask, render_template, session, request, redirect, url_for, flash
 from flask_login import LoginManager, login_required, login_user, current_user, logout_user, \
-    fresh_login_required
+    fresh_login_required, UserMixin, login_manager
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired  # after a time the user will logged out automaticlly
+from werkzeug.security import check_password_hash
+
 from database import db
 from models.account import Account
 from models.account_preferences import Account_Preference
@@ -15,7 +17,12 @@ from models.notification import Notification
 from models.category import Category
 from models.bill import Bill
 from registration import RegistrationForm
-from flask_login import UserMixin
+from login import LoginForm
+
+
+login_manager = LoginManager()
+
+
 
 
 def create_app():
@@ -27,17 +34,26 @@ def create_app():
     app.config['USER_ENABLE_FORGOT_PASSWORD'] = True
     app.config['SECRET_KEY'] = 'secret'
     db.app = app
+    #
+    login_manager.init_app(app)
+
     db.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(email):
+        return Account.query.get(email)
+
+
     return app
 
 
 app = create_app()
-login_manager = LoginManager()
-login_manager.init_app(app)
+
+
 serializer = URLSafeTimedSerializer(app.secret_key)
-login_manager.login_view = 'auth.login'
-login_manager.login_message = 'text here about login page like please login in'
-login_manager.refresh_view = 'login'
+login_manager.login_view = 'login'
+login_manager.login_message = 'the email or password are incorrect.'
+#login_manager.refresh_view = 'login'
 login_manager.needs_refresh_message = 'You need to login again!'
 
 
@@ -48,18 +64,18 @@ def is_safe_url(target):  # its safer url when its redirected
     return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
 
 
-@login_manager.user_loader
-def load_User(session_token):  # load_User(user_id):
-    user = User.query.filter_by(session_token=session_token).first()
+#@login_manager.user_loader
+#def load_User(session_token):  # load_User(user_id):
+ #   user = User.query.filter_by(session_token=session_token).first()
     # user = User.query.get(int(user_id))
-    try:
-        serializer.loads(
-            session_token)  # after 100 second the token will be invalid mean its will be automaticlly logged out
-    except SignatureExpired:  # if the session is expired then update the session with blink session token
-        user.session_token = None
-        db.session.commit()
-        return None  # if the session is invalid or doesn't find the user
-    return user
+    #try:
+      #  serializer.loads(
+     #       session_token)  # after 100 second the token will be invalid mean its will be automaticlly logged out
+    #except SignatureExpired:  # if the session is expired then update the session with blink session token
+      #  user.session_token = None
+     #   db.session.commit()
+    #    return None  # if the session is invalid or doesn't find the user
+   # return user
 
 
 @app.route('/profile')
@@ -76,24 +92,41 @@ def secret():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    form = LoginForm(request.form)
     if request.method == 'POST':
-        username = request.form.get('username')
-        remember_me = request.form.get('remember_me')
-        user = User.query.filter_by(
-            userName=username).first()  # passing the USERNAME FROM APP and checking if the user name exists
-        if not user:
-            return '<h1>User does not exists</h1>'
+        account = Account.query.filter_by(email=form.email.data).first()
+        if account is not None and account.verify_password(form.password.data):
+            login_user(account, form.remember_me.data)
+            return redirect(request.args.get('next') or url_for('index'))
+        flash('Invalid email or password.')
+    return render_template('login.html', form=form)
 
-        return redirect(url_for('index'))  # if there is nothing in the session
-        login_user(user, remember=remember_me)  # remember me token is true when there is a vin checkbox else False
-        if 'next' in session and session['next']:
-            if is_safe_url(session['next']):
-                return redirect(session['next'])
+        # remember_me = request.form.get('remember_me')
 
-        return '<h1>you are now logged in.</h>'
+        #acc = Account.query.filter_by(
+         #   email=email).first()  # passing the USERNAME FROM APP and checking if the user name exists
+        #if not acc:
+          #  return '<h1>User does not exists</h1>'
 
-    session['next'] = request.args.get('next')
-    return render_template('login.html')
+        #if check_password_hash(acc.password_hash, request.form.get('password')):
+         #   return redirect(url_for('index'))  # if there is nothing in the session
+
+        #else:
+         #   flash(u'Incorrect Email or Password!', 'error')
+        #return redirect(url_for('login'))
+
+
+        #return redirect(url_for('register'))
+
+    #     login_user(user)  # remember me token is true when there is a vin checkbox else False
+    #     if 'next' in session and session['next']:
+    #         if is_safe_url(session['next']):
+    #             return redirect(session['next'])
+    #
+    #     return '<h1>you are now logged in.</h>'
+    #
+    # session['next'] = request.args.get('next')
+
 
 
 @app.route('/logout')
@@ -149,13 +182,12 @@ def change():
 def register():
     if request.method == 'POST':
         form = RegistrationForm(request.form)
-        # print(form.email.data)
         if form.validate_on_submit():
             account = Account(email=form.email.data,
-                              username=form.username.data,
                               password=form.password.data)
-            print('account before saving', account)
             db.session.add(account)
+            user = User(firstname=form.firstName.data, lastname=form.lastName.data, email=form.email.data)
+            db.session.add(user)
             db.session.commit()
             flash('You can now login.')
             return redirect(url_for('login'))

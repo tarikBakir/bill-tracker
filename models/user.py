@@ -5,12 +5,11 @@ from database import db
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), unique=True)
-    firstname = db.Column(db.String(100))
-    lastname = db.Column(db.String(100))
-    session_token = db.Column(db.String(100), unique=True)
+    firstname = db.Column(db.String(100), nullable=False)
+    lastname = db.Column(db.String(100), nullable=False)
+    session_token = db.Column(db.String(100), unique=True, nullable=True)
     email = db.Column(db.String(100), db.ForeignKey('accounts.email'), nullable=False)
-    postalcode = db.Column(db.String(100), db.ForeignKey('addresses.postal_code'), nullable=False)
+    postalcode = db.Column(db.String(100), db.ForeignKey('addresses.postal_code'), nullable=True)
     notification = db.relationship('Notification', backref='users')
 
     def get_id(self):
