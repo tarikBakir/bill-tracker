@@ -1,0 +1,79 @@
+{% extends "base.html" %} {% block title %}Bills{% endblock %}
+{% block content %}
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Bills</h1>
+        <p class="mb-4">Here you can view all your listed bills alongside filtering them through the search bar in the
+            table.</p>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Listed Bills</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Company</th>
+                            <th>Amount</th>
+                            <th>Paid</th>
+                            <th>Description</th>
+                            <th>Created Date</th>
+                            <th>Due Date</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Company</th>
+                            <th>Amount</th>
+                            <th>Paid</th>
+                            <th>Description</th>
+                            <th>Created Date</th>
+                            <th>Due Date</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        {% for bill in bills %}
+                            <tr>
+                                <td>{{ bill.name }}</td>
+                                <td>{{ bill.categoryId }}</td>
+                                <td>{{ bill.companyId }}</td>
+                                <td>{{ bill.amount }}</td>
+                                <td>{{ bill.paid }}</td>
+                                <td>{{ bill.description }}</td>
+                                <td>{{ bill.createDate }}</td>
+                                <td>{{ bill.dueDate }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+{% endblock %}
+
+{% block js %}
+    {{ super() }}
+    <!-- Page level plugins -->
+    <script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ url_for('static', filename='js/demo/datatables-demo.js') }}"></script>
+{% endblock %}
