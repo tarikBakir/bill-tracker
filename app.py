@@ -44,7 +44,6 @@ def create_app():
 
 @login_manager.user_loader
 def load_user(email):
-    print(email)
     return Account.query.get(email)
 
 
@@ -118,7 +117,10 @@ def index():
 
     topFiveCategories_names = list(map(lambda b: b.category, topFiveCategories))
     topFiveCategories_amount = list(map(lambda b: b.NumberOfBills, topFiveCategories))
+
+    user = db.engine.execute('Select * from users where email=?', current_user.email).fetchall()[0]
     return render_template('index.html',
+                           user_name=user.firstname + ' ' + user.lastname,
                            totalUnpaid=str(monthlyBillsAmount[0].total), totalPaid=str(paidMonthlyBillsAmount[0].total),
                            billsAmountByMonth=billsAmountByMonth_amountsMapped,
                            topFiveCategories_names=topFiveCategories_names,
@@ -129,6 +131,11 @@ def index():
 @login_required
 def blank():
     return render_template('blank.html')
+
+
+@app.route('/forgot-password')
+def forgot_password():
+    return render_template('forgot-password.html')
 
 
 @app.route('/add-bill', methods=['GET', 'POST'])
