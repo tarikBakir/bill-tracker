@@ -83,8 +83,8 @@ def login():
         account = Account.query.filter_by(email=form.email.data).first()
         if account is not None and account.verify_password(form.password.data):
             login_user(account, form.remember_me.data)
-            # resp = make_response(render_template('login.html'))
-            # resp.set_cookie('userID', user)
+            resp = make_response(render_template('login.html'))
+            resp.set_cookie('user_email', form.email.data)
             return redirect(request.args.get('next') or url_for('index'))
         flash('Invalid email or password.')
     return render_template('login.html', form=form)
