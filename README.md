@@ -13,24 +13,23 @@
 I decided on developing a **bill tracker** web application that will have the
 following features:
 * **Log bills, amounts and date**: 
-A user will be able to log upcoming household bills manually, and
-probably using X company’s API which will provide the upcoming bill of
-the month for the user and so the user does not need to input it
-manually.
+A user will be able to log passed/upcoming bills manually not only that but also editing them.Also, The user is able to add a company details manually as well as a custom category to the bills. ``there's an option to mark the bill as paid for the user when creating/editing a bill.
 * **List bills**: 
-The user will be able to list and sort all his bills by different factors; such
-as date/amount/company.
-* **Have a few graphs (this year / last year)**: 
-A graph for the user to show analytical data about the bills in terms of
-amounts or even the different categories of the bills.
-* **Store them somewhere**: 
+The user will be able to list and search all his bills by different factors; such
+as date/amount/company etc...
+* **Have graphs that shows data about bills**: 
+Graphs for the user to show analytical data about the bills in terms of
+bills amounts in monthly basis and the paid ones as well as the distrbuition of the bills based on the categories.
+* **Store data somewhere**: 
 The user data will be available on a cloud database so the user will be
 able to view the data from anywhere.
 
+* **Registration and Login**: 
+In order to start using the application, user has to sign up with his info such as first and last name, phone number and email. Once registration is done, user can login and start using the application immediately. 
+
 * **Authentication**:
 There are many excellent Python authentication packages, but none of them do every‐
-thing. The user authentication solution presented in this chapter uses several packages
-and provides the glue that makes them work well together. This is the list of packages
+thing.This is the list of packages
 that will be used:
 * Flask-Login: Management of user sessions for logged-in users
 * Werkzeug: Password hashing and verification
@@ -41,6 +40,8 @@ sions will be used:
 * Flask-Bootstrap: HTML templates
 * Flask-WTF: Web forms
 
+
+Additional uses: such as cookies
 
 
 ## Database diagram
