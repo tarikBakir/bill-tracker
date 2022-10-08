@@ -11,6 +11,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), db.ForeignKey('accounts.email'), nullable=False)
     postalcode = db.Column(db.String(100), db.ForeignKey('addresses.postal_code'), nullable=True)
     notification = db.relationship('Notification', backref='users')
+    bill = db.relationship('Bill', backref='users')
 
     def get_id(self):
         # unicode(self.session_token)

@@ -1,0 +1,99 @@
+{% extends "base.html" %} {% block title %}Bills{% endblock %}
+{% block content %}
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Edit Bill</h1>
+        <p class="mb-4">Here you can edit a bill to be updated in your bills list.</p>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">New Bill</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <form class="user" method="post">
+                            <div class="form-group">
+                                <input name="name" type="text" class="form-control form-control-user"
+                                       id="name"
+                                       value={{ bill.name }}
+                                               placeholder="Name">
+                            </div>
+                            <div class="form-group">
+                                <textarea name="description" style="border-radius: 2rem"
+                                          class="form-control form-control-user"
+                                          id="description"
+                                          value={{ bill.description }}
+                                                  placeholder="Description"></textarea>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col">
+                                    <span>₪
+                                    <input name="amount" type="number" class="form-control form-control-user"
+                                           id="amount"
+                                           value={{ bill.amount }}
+                                                   placeholder="Amount"></span>
+                                </div>
+                                <div style="align-self: center;" class="col-1">
+                                    <div class="btn-group-toggle" style="text-align: center" data-toggle="buttons">
+                                        <label class="btn btn-primary active">
+                                            <input name="paid" value={{ bill.paid }} type="checkbox"> Paid
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div style="place-self: center; border-radius: 10rem"
+                                     class="col-sm-4 mb-3 mb-sm-0">
+                                    <select name="categoryId"
+                                            style="font-size: 0.75rem; height: 3rem; border-radius: 10rem"
+                                            class="custom-select">
+                                        <option value={{ bill.categoryId }}>{{ bill.categoryId }}</option>
+                                        {% for category in categories %}
+                                            <option value={{ category.id }}>{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div style="place-self: center; border-radius: 10rem"
+                                     class="col-sm-4 mb-3 mb-sm-0">
+                                    <select name="companyCode"
+                                            style="font-size: 0.75rem; height: 3rem; border-radius: 10rem"
+                                            class="custom-select">
+                                        <option value={{ company.companyId }}>{{ company.name }}</option>
+                                        {% for company in companies %}
+                                            <option value={{ company.id }}>{{ company.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <input name="dueDate" value={{ bill.dueDate }} type="date"
+                                           class="form-control form-control-user"
+                                           id="date" placeholder="Date">
+                                </div>
+                            </div>
+                            <input type="submit" value="Update Bill" class="btn btn-primary btn-user btn-block">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+    </div>
+    <!-- End of Main Content -->
+{% endblock %}
+
+{% block js %}
+    {{ super() }}
+    <!-- Page level plugins -->
+    <script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ url_for('static', filename='js/demo/datatables-demo.js') }}"></script>
+{% endblock %}

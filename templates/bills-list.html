@@ -27,6 +27,7 @@
                             <th>Description</th>
                             <th>Created Date</th>
                             <th>Due Date</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tfoot>
@@ -39,6 +40,7 @@
                             <th>Description</th>
                             <th>Created Date</th>
                             <th>Due Date</th>
+                            <th>Actions</th>
                         </tr>
                         </tfoot>
                         <tbody>
@@ -52,6 +54,10 @@
                                 <td>{{ bill.description }}</td>
                                 <td>{{ bill.createDate }}</td>
                                 <td>{{ bill.dueDate }}</td>
+                                <td>
+                                    <a href="/edit-bill/{{ bill.id }}">EDIT</a>
+                                    <a href="/delete-bill/{{ bill.id }}">DELETE</a>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
