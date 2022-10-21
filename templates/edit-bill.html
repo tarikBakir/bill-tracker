@@ -16,7 +16,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col">
-                        <form class="user" method="post">
+                        <form class="user" method="POST">
                             <div class="form-group">
                                 <input name="name" type="text" class="form-control form-control-user"
                                        id="name"
@@ -60,10 +60,10 @@
                                 </div>
                                 <div style="place-self: center; border-radius: 10rem"
                                      class="col-sm-4 mb-3 mb-sm-0">
-                                    <select name="companyCode"
+                                    <select name="companyId"
                                             style="font-size: 0.75rem; height: 3rem; border-radius: 10rem"
                                             class="custom-select">
-                                        <option value={{ company.companyId }}>{{ company.name }}</option>
+                                        <option value={{ bill.companyId }}>{{ bill.name }}</option>
                                         {% for company in companies %}
                                             <option value={{ company.id }}>{{ company.name }}</option>
                                         {% endfor %}

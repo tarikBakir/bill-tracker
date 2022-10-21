@@ -1,5 +1,7 @@
 from flask_login import UserMixin
 from database import db
+from itsdangerous import Serializer
+from flask import current_app
 
 
 class User(UserMixin, db.Model):
@@ -16,3 +18,5 @@ class User(UserMixin, db.Model):
     def get_id(self):
         # unicode(self.session_token)
         return self.session_token
+
+

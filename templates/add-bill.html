@@ -30,15 +30,17 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col">
-                                    <span>₪
-                                    <input name="amount" type="number" class="form-control form-control-user"
+                                    <span style="display: flex; align-items: center;">₪
+                                    <input style="margin-left: 0.5rem" name="amount" type="number"
+                                           class="form-control form-control-user"
                                            id="amount"
                                            placeholder="Amount"></span>
                                 </div>
                                 <div style="align-self: center;" class="col-1">
                                     <div class="btn-group-toggle" style="text-align: center" data-toggle="buttons">
                                         <label class="btn btn-primary active">
-                                            <input name="paid" type="checkbox"> Paid
+                                            <input name="paid" type="checkbox">
+                                            Paid
                                         </label>
                                     </div>
                                 </div>
@@ -57,7 +59,7 @@
                                 </div>
                                 <div style="place-self: center; border-radius: 10rem"
                                      class="col-sm-4 mb-3 mb-sm-0">
-                                    <select name="companyCode"
+                                    <select name="companyId"
                                             style="font-size: 0.75rem; height: 3rem; border-radius: 10rem"
                                             class="custom-select">
                                         <option selected>Select a Company</option>
@@ -92,4 +94,7 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ url_for('static', filename='js/demo/datatables-demo.js') }}"></script>
+
 {% endblock %}
+
+

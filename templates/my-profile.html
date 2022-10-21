@@ -1,0 +1,51 @@
+{% extends "base.html" %} {% block title %}Add Category{% endblock %}
+{% block content %}
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Profile Information</h1>
+    <p class="mb-4">Here you can see your info</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Profile Info</h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <label>First Name: </label>
+                    <span>{{ firstName }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>Last Name: </label>
+                    <span>{{ lastname }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>Email: </label>
+                    <span>{{ current_user.email }}</span>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- End of Main Content -->
+{% endblock %}
+
+{% block js %}
+    {{ super() }}
+    <!-- Page level plugins -->
+    <script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ url_for('static', filename='js/demo/datatables-demo.js') }}"></script>
+{% endblock %}

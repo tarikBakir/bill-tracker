@@ -13,6 +13,6 @@ class Bill(db.Model):
     createDate = db.Column(db.Date, default=datetime.datetime.utcnow)
     modifiedDate = db.Column(db.Date, default=datetime.datetime.utcnow)
     dueDate = db.Column(db.Date, default=datetime.datetime.utcnow)
-    companyId = db.Column(db.Integer, db.ForeignKey('companies.id'), nullable=True)
+    companyId = db.Column(db.Integer, db.ForeignKey('companies.id'), nullable=False)
     categoryId = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)

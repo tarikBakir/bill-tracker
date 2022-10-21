@@ -19,7 +19,7 @@ class BillForm(Form):
     dueDate = DateField('dueDate',
                         validators=[InputRequired()])
 
-    companyId = IntegerField('id')
+    companyId = IntegerField('companyId', validators=[InputRequired()])
 
     categoryId = IntegerField('categoryId',
                               validators=[InputRequired()])
@@ -27,4 +27,7 @@ class BillForm(Form):
     submit = SubmitField('submit')
 
     def validate_on_submit(self):
+        if not Form.validate(self):
+            return False
+        
         return True

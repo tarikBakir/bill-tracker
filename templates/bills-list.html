@@ -47,9 +47,9 @@
                         {% for bill in bills %}
                             <tr>
                                 <td>{{ bill.name }}</td>
-                                <td>{{ bill.categoryId }}</td>
-                                <td>{{ bill.companyId }}</td>
-                                <td>{{ bill.amount }}</td>
+                                <td>{{ categories[bill.categoryId - 1].name }}</td>
+                                <td>{{ companies[bill.companyId - 1].name }}</td>
+                                <td>₪ {{ bill.amount }}</td>
                                 <td>{{ bill.paid }}</td>
                                 <td>{{ bill.description }}</td>
                                 <td>{{ bill.createDate }}</td>

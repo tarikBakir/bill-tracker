@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms import ValidationError
 from wtforms.validators import InputRequired, Length, Email, Regexp, EqualTo
 import email_validator
+from flask import flash
 from models.account import Account
 
 
@@ -33,4 +34,27 @@ class RegistrationForm(Form):
             raise ValidationError('username already in use')
 
     def validate_on_submit(self):
+        if not Form.validate(self):
+            return False
+
+        if self.firstName.data is None:
+            self.firstName.errors.append('please insert your first name!')
+            return False
+
+        if self.lastName.data is None:
+            self.lastName.errors.append('please insert your last name.')
+            return False
+
+        if self.email.data is None:
+            self.email.errors.append('please insert your email.')
+            return False
+
+        if self.password.data is None:
+            self.password.errors.append('please insert your password.')
+            return False
+
+        if self.password2.data is None:
+            self.password2.errors.append('please insert your password to confirm.')
+            return False
+
         return True
