@@ -486,19 +486,19 @@ def default_data_bills():
 
 
 if __name__ == '__main__':
-    # db.engine.execute('''DROP TABLE IF EXISTS categories;''')
-    # db.engine.execute('''DROP TABLE IF EXISTS companies;''')
-    # db.engine.execute('''DROP TABLE IF EXISTS bills;''')
-    #
-    # db.create_all()
-    #
-    # db.session.bulk_save_objects(default_data_categories())
-    # db.session.commit()
+    db.engine.execute('''DROP TABLE IF EXISTS categories;''')
+    db.engine.execute('''DROP TABLE IF EXISTS companies;''')
+    db.engine.execute('''DROP TABLE IF EXISTS bills;''')
 
-    # db.session.bulk_save_objects(default_data_companies())
-    # db.session.commit()
+    db.create_all()
 
-    # db.session.bulk_save_objects(default_data_bills())
-    # db.session.commit()
+    db.session.bulk_save_objects(default_data_categories())
+    db.session.commit()
+
+    db.session.bulk_save_objects(default_data_companies())
+    db.session.commit()
+
+    db.session.bulk_save_objects(default_data_bills())
+    db.session.commit()
 
     app.run(debug=True)
