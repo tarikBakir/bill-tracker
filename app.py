@@ -124,19 +124,36 @@ def logout():
 def index():
     totalUnpaidBills = db.engine.execute(
         'Select count(b.id) AS totalunpaidbills from bills as b inner join users as u on b.userId = u.id where b.paid = 0 and u.email=? GROUP BY b.userId',
-        current_user.email).first().totalunpaidbills
+        current_user.email).first()
+    if totalUnpaidBills is None:
+        totalUnpaidBills = 0
+    else:
+        totalUnpaidBills = totalUnpaidBills.totalunpaidbills
 
     totalBill = db.engine.execute(
         'Select COUNT(b.id) AS totalBill from bills as b inner join users as u on b.userId = u.id where u.email=?  GROUP BY b.userId',
-        current_user.email).first().totalBill
+        current_user.email).first()
+    if totalBill is None:
+        totalBill = 0
+    else:
+        totalBill = totalBill.totalBill
 
     monthlyBillsAmount = db.engine.execute(
         'SELECT SUM(amount) AS total FROM bills as b inner join users u on b.userId = u.id WHERE u.email=? and dueDate > DATETIME("now", "-31 day") AND b.paid = 0',
-        current_user.email).first().total
+        current_user.email).first()
+    if monthlyBillsAmount is None:
+        monthlyBillsAmount = 0
+    else:
+        monthlyBillsAmount = monthlyBillsAmount.total
 
     paidMonthlyBillsAmount = db.engine.execute(
         'SELECT SUM(amount) AS total FROM bills inner join users as u on bills.userId=u.id WHERE dueDate > DATETIME("now", "-31 day") AND paid = 1 AND u.email=?',
-        current_user.email).first().total
+        current_user.email).first()
+
+    if paidMonthlyBillsAmount is None:
+        paidMonthlyBillsAmount = 0
+    else:
+        paidMonthlyBillsAmount = paidMonthlyBillsAmount.total
 
     billsAmountByMonth = db.engine.execute(
         "SELECT b.userId,strftime('%m', b.dueDate) AS 'Month',sum(b.amount) AS 'monthlyPayment' ,count(b.id) AS 'number Of Bills' from bills AS b inner join users as u on b.userId = u.id where b.paid=0 and  (date('now')-date(b.dueDate))<=1 AND u.email=? group by b.userId,Month ORDER BY Month ASC",
@@ -188,10 +205,8 @@ def new_bill():
             form.paid.data = False
         else:
             form.paid.data = True
-        print("i am here!!")
-        print(form.paid.data)
+
         if form.validate_on_submit():
-            print("testtt121")
             user_id = db.engine.execute('Select * from users where email=?', current_user.email).fetchall()[0].id
 
             bill = Bill(name=form.name.data, description=form.description.data
