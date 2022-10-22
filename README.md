@@ -1,5 +1,5 @@
 # Bill Tracker
-Live link: https://spectacular-goat-schism-dev.wayscript.cloud
+Live link: https://bill-tracker.azurewebsites.net
 ## Table of contents
 * [General info](#general-info)
 * [Database diagram](#database-diagram)
