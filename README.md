@@ -50,6 +50,8 @@ Additional uses: such as cookies
 ![](class-diagram-bill-tracker.drawio.png)
 ## Sequence diagram
 ![](bill-tracker-Sequence Diagram.drawio.png)
+## UseCase diagram
+![](![usecaseDiagram](https://user-images.githubusercontent.com/94920690/197350956-355b9fce-e016-4679-a469-0794bff10c64.png))
 ## Technologies
 Project is created with:
 * Flask version: 2.2.2
