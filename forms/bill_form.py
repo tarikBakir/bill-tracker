@@ -27,7 +27,7 @@ class BillForm(Form):
     submit = SubmitField('submit')
 
     def validate_on_submit(self):
-        if not Form.validate(self):
-            return False
-        
+        # if not Form.validate(self):
+        # return False
+
         return True

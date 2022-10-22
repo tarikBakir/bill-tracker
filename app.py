@@ -123,8 +123,8 @@ def logout():
 @login_required
 def index():
     totalUnpaidBills = db.engine.execute(
-        'Select count(b.id) AS totalBillsUnpaid from bills as b inner join users as u on b.userId = u.id where b.paid = 0 and u.email=? GROUP BY b.userId',
-        current_user.email).first().totalBillsUnpaid
+        'Select count(b.id) AS totalunpaidbills from bills as b inner join users as u on b.userId = u.id where b.paid = 0 and u.email=? GROUP BY b.userId',
+        current_user.email).first().totalunpaidbills
 
     totalBill = db.engine.execute(
         'Select COUNT(b.id) AS totalBill from bills as b inner join users as u on b.userId = u.id where u.email=?  GROUP BY b.userId',
@@ -188,8 +188,10 @@ def new_bill():
             form.paid.data = False
         else:
             form.paid.data = True
-
+        print("i am here!!")
+        print(form.paid.data)
         if form.validate_on_submit():
+            print("testtt121")
             user_id = db.engine.execute('Select * from users where email=?', current_user.email).fetchall()[0].id
 
             bill = Bill(name=form.name.data, description=form.description.data
