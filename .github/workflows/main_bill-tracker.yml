@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'Bill-Tracker'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2334E955D5854637B9B4688B9DC07BB9 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_872837803DEE4414996E6B81D40F5CBA }}
